@@ -47,7 +47,7 @@
 - `F3` - 它是否应该是 `payable`?
 - `F4` - 它是否可以与另一个类似的函数合并?
 - `F5` - 验证所有参数都在安全范围内，即使该函数只能由受信任的用户调用。
-- `F6` - 是否遵循 check-before-effect 模式的检查？ (SWC-107)
+- `F6` - 是否遵循 Checks–Effects–Interactions 模式，先检查输入和权限，再更新状态，最后执行外部调用？ (SWC-107)
 - `F7` - 检查抢跑的可能性，例如批准功能。(SWC-114)
 - `F8` - 是否会遭受 `insufficient gas griefing` 攻击? (SWC-126)
 - `F9` - 是否应用了正确的修饰符，例如 `onlyOwner`/`requiresAuth`?
@@ -80,7 +80,7 @@
 - `C9` - 不要使用 `blockhash()`等全局变量获取随机数。 (SWC-120)
 - `C10` - 是否保护了签名不被 `nonce` 和 `block.chainid` 重放。 (SWC-121)
 - `C11` - 确保所有签名使用了 `EIP-712`。 (SWC-117 SWC-122)
-- `C12` - 如果计算 >2 个动态类型的哈希时，应该使用 `abi.encode()`，而不是 `abi.encodePacked()`。 (SWC-133)
+- `C12` - 对安全敏感的数据计算哈希时，使用 `abi.encode()`，尤其是参数中有两个或更多动态类型时。 (SWC-133)
 - `C13` - 谨慎对待内联汇编。 (SWC-127)
 - `C14` - 不要假设特定的 `ETH` 余额。 (SWC-132)
 - `C15` - 避免 `insufficient gas griefing`攻击。 (SWC-126)
@@ -101,7 +101,7 @@
 - `C30` - 不要假设 `msg.sender` 是相关交易的用户.
 - `C31` - 除非用于模糊测试或形式验证，否则请勿使用 `assert()`。 (SWC-110)
 - `C32` - 不要将 `tx.origin` 用于授权检查。 (SWC-115)
-- `C33` - 不要使用 `address.transfer()` 或 `address.send()`，使用 `.call.value(...)("")`。 (SWC-134)
+- `C33` - 使用 `recipient.call{value: amount}("")` 发送 ETH 时，检查返回的 `success`，并遵循 Checks–Effects–Interactions 模式。 (SWC-134)
 - `C34` - 使用低级调用（low-level call）时确保合约存在。
 - `C35` - 调用具有多个参数的函数时，使用命名参数语法。
 - `C36` - 不要使用内联汇编调用 `create2`，使用新式的 `salt` 合约创建语法。
